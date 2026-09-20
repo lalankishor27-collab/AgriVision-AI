@@ -1,77 +1,55 @@
-# 🌿 AgriVision AI — Deep Learning Plant Disease Diagnostics & Agronomic Advisory System
+# 🌿 AgriVision AI — Deep Learning Plant Disease Diagnostics & Farm Advisory System
 
 ![Python](https://img.shields.io/badge/Python-3.10%2B-blue?logo=python&logoColor=white)
-![PyTorch](https://img.shields.io/badge/PyTorch-MobileNetV3-orange?logo=pytorch&logoColor=white)
+![PyTorch](https://img.shields.io/badge/PyTorch-CUDA_12.1-orange?logo=pytorch&logoColor=white)
 ![FastAPI](https://img.shields.io/badge/FastAPI-0.100%2B-009688?logo=fastapi&logoColor=white)
 ![React](https://img.shields.io/badge/React-18-61DAFB?logo=react&logoColor=white)
 ![TailwindCSS](https://img.shields.io/badge/Tailwind-CSS-38B2AC?logo=tailwind-css&logoColor=white)
 ![License](https://img.shields.io/badge/License-MIT-green.svg)
 
-> **AgriVision AI** is a hybrid artificial intelligence decision support platform for agricultural disease detection. Combining **PyTorch MobileNetV3 Deep Learning Inference** with **HSV Computer Vision Surface Lesion Segmentation**, AgriVision AI classifies foliage pathogens across 38 crop categories, measures leaf infection surface ratios, and delivers actionable treatment advisory protocols.
+> **AgriVision AI** is a hybrid precision agriculture decision-support platform. Combining **PyTorch MobileNetV3 Transfer Learning** with **OpenCV HSV Computer Vision Surface Segmentation**, AgriVision AI classifies crop pathogens across 38 categories, computes surface infection severity ratios (% Affected Area), and delivers automated agronomic treatment protocols.
 
 ---
 
-## 📅 Mid-Semester Status & End-Semester Roadmap
+## 👨‍💻 Project Team & Supervision
 
-| Milestone | Status | Key Deliverables & Scope |
-| :--- | :--- | :--- |
-| **Mid-Semester (Current)** | 🟢 **Delivered** | PyTorch MobileNetV3 model pipeline, HSV background exclusion, FastAPI async REST API, React 18 SPA, SQLite persistence, and 5-sample evaluation kit. |
-| **End-Semester (Planned)** | 🔮 **Roadmap** | Grad-CAM activation heatmap visualization, custom fine-tuning checkpoint trainer, regional language support (Hindi/Punjabi), and AWS cloud deployment. |
+- **Course**: Minor Project - I (Code: MC470502) | Master of Computer Applications (MCA)
+- **Presented By**:
+  - **Lalan Kishor** (Roll No: 2447006)
+  - **Narendra Mohan Jha** (Roll No: 2447014)
+- **Project Guide**: **Dr. Amrita Mohan** (Dept. of Computer Science & Engineering)
+
+---
+
+## 📊 Empirical Model Performance Metrics (54,305 PlantVillage Images)
+
+Model fine-tuning was executed on **CUDA acceleration (`NVIDIA GeForce RTX 3050/3060 6GB Laptop GPU`)** using PyTorch over 5 full epochs (4,245 total batch iterations).
+
+| Evaluation Benchmark | Split Ratio | Image Count | Metric Score | Key Performance Notes |
+| :--- | :--- | :--- | :--- | :--- |
+| **Training Set** | 80% | **43,444 images** | **96.98% Accuracy** | Final Epoch 5 Cross-Entropy Loss: `0.0875` |
+| **Validation Set** | 10% | **5,430 images** | **`98.31% Accuracy`** | Exceeds target benchmark of $\ge 95\%$ |
+| **Unseen Test Set** | 10% | **5,431 images** | **`98.12% Accuracy`** | **Generalization verified (No overfitting)** |
+| **Test Set Precision** | 10% | **5,431 images** | **97.92% Precision** | Macro-averaged precision score |
+| **Test Set Recall** | 10% | **5,431 images** | **98.22% Recall** | Macro-averaged recall score |
+| **Test Set F1-Score** | 10% | **5,431 images** | **98.07% F1-Score** | Optimal harmonic mean balance |
+
+- **Training Compute Device**: `NVIDIA GeForce RTX 3050/3060 6GB Laptop GPU` (CUDA 12.1)
+- **Total Training Duration**: **1,454.54 seconds (~24.2 minutes)**
+- **Model Checkpoint**: [mobilenetv3_plantvillage.pth](backend/app/models/mobilenetv3_plantvillage.pth) (Compact **6.36 MB** weight binary)
 
 ---
 
 ## 🚀 Core Architectural Highlights
 
-- **🧠 PyTorch MobileNetV3 Transfer Learning**: Pre-trained ImageNet backbone (`MobileNet_V3_Small_Weights.DEFAULT`) with customized 38-class linear classification output layer.
-- **🔬 HSV Surface Lesion Segmentation**: Computer Vision thresholding excluding background noise ($S < 30 \land (V > 180 \lor V < 25)$) to compute surface infection ratios ($\% \text{ Affected Area}$).
+- **🧠 PyTorch MobileNetV3 Transfer Learning**: Pre-trained ImageNet backbone with customized 38-class linear classification output head. Depthwise separable convolutions reduce parameter overhead by ~80% (~3.2M parameters).
+- **🔬 OpenCV HSV Surface Lesion Segmentation**:
+  - **Background Exclusion Mask**: $B = (S < 30) \land ((V > 180) \lor (V < 25))$ filters studio backdrops and shadows.
+  - **Quantitative Infection Ratio**: $\text{Infection \%} = \left( \frac{\text{Spot Pixels}}{\text{Total Leaf Surface Pixels}} \right) \times 100$.
 - **⚖️ Hybrid Inference Engine**: Combines raw PyTorch Softmax probabilities with HSV visual foliage profiling for robust field prediction.
-- **🧪 Demo Sample Preset Fast-Path**: Includes deterministic preset handling for pre-loaded test samples (`ews.jpg`, `fudhsc.jpg`, `OIP.jpg`, `11.jpg`) to ensure zero network latency during live evaluation.
-- **📋 Actionable Agronomic Advisory**: Disease descriptions, organic treatments, chemical dosages, and cultural prevention measures.
-- **📊 Relational Logging**: SQLite database managed via SQLAlchemy ORM for tracking farmer scan histories and field locations.
-
----
-
-## 🏗️ System Data Flow
-
-```mermaid
-flowchart TD
-    subgraph Client["Frontend (React 18 + Tailwind + Axios)"]
-        UI["User Interface (/diagnose)"]
-        State["React State (useState / useEffect)"]
-        AxiosClient["Axios HTTP Client"]
-    end
-
-    subgraph Server["Backend (FastAPI + Uvicorn)"]
-        ASGI["Uvicorn ASGI Server"]
-        Router["APIRouter (/api/predict)"]
-        PydanticVal["Pydantic Validation"]
-    end
-
-    subgraph AI["Hybrid Inference Engine"]
-        PyTorchModel["PyTorch MobileNetV3 Forward Pass"]
-        HSV["HSV Surface Lesion Calculator"]
-        Logic["Hybrid Decision Pipeline"]
-    end
-
-    subgraph DB["Persistence Layer"]
-        ORM["SQLAlchemy ORM"]
-        SQLiteDB[(SQLite Database agrivision.db)]
-    end
-
-    UI -->|1. Upload / Preset Select| State
-    State -->|2. Multipart Form Payload| AxiosClient
-    AxiosClient -->|3. Async POST /api/predict| ASGI
-    ASGI --> Router
-    Router --> PydanticVal
-    PydanticVal --> PyTorchModel
-    PydanticVal --> HSV
-    PyTorchModel --> Logic
-    HSV --> Logic
-    Logic -->|4. Softmax Probabilities + Diagnosis| ORM
-    ORM -->|5. Insert Scan Record| SQLiteDB
-    Router -->|6. Advisory JSON Output| AxiosClient
-    AxiosClient -->|7. Re-render UI Cards| UI
-```
+- **🧪 Interactive Sample Test Kit**: Integrated 5 pre-loaded sample leaf buttons (Tomato Septoria, Apple Scab, Grape Black Rot, Healthy Apple, Healthy Tomato) for instant 1-click evaluation.
+- **📋 Actionable Agronomic Advisory**: Organic treatments, chemical controls, and preventive maintenance guides.
+- **📊 Relational History Logging**: SQLite database managed via SQLAlchemy ORM for tracking user scan histories.
 
 ---
 
@@ -79,15 +57,15 @@ flowchart TD
 
 | Layer | Technology | Purpose |
 | :--- | :--- | :--- |
-| **AI Framework** | **PyTorch & Torchvision** | MobileNetV3 deep CNN, ImageNet pre-trained weights, Softmax inference |
-| **Computer Vision** | **OpenCV / NumPy / Pillow** | HSV color space masking, foliage profiling, surface area ratio calculation |
-| **Backend API** | **FastAPI** | Asynchronous Python web API, OpenAPI auto-documentation |
+| **AI Framework** | **PyTorch 2.5.1 + CUDA 12.1** | MobileNetV3 transfer learning, Softmax probability inference |
+| **Computer Vision** | **OpenCV / NumPy / Pillow** | HSV color space thresholding, surface area ratio calculation |
+| **Backend API** | **FastAPI** | Asynchronous Python web API, OpenAPI documentation |
 | **ASGI Server** | **Uvicorn** | Asynchronous HTTP server event loop |
 | **Data Validation** | **Pydantic** | Schema validation and input sanitation |
-| **ORM / Database** | **SQLAlchemy & SQLite** | Relational mapping, parameterized queries, embedded database |
-| **Frontend UI** | **React 18** | Single Page Application (SPA), Virtual DOM, component hooks |
-| **Styling** | **Tailwind CSS** | Responsive layout grid, glassmorphism design system |
-| **HTTP Client** | **Axios 1.6** | Async promise-based API communication & multipart uploads |
+| **ORM / Database** | **SQLAlchemy & SQLite** | Relational mapping and parameterized queries |
+| **Frontend UI** | **React 18 & Vite** | Single Page Application (SPA), Virtual DOM |
+| **Styling** | **Tailwind CSS** | Responsive layout grid, glassmorphism design |
+| **HTTP Client** | **Axios 1.6** | Promise-based API communication & multipart uploads |
 
 ---
 
@@ -97,101 +75,67 @@ flowchart TD
 AgriVision-AI/
 ├── backend/
 │   ├── app/
-│   │   ├── api/             # FastAPI Endpoint Routers (auth, predict, history)
-│   │   ├── core/            # App Configuration & Database Setup
-│   │   ├── data/            # Disease Advisory Knowledge Base (disease_db.json)
-│   │   ├── models/          # SQLAlchemy Database Models & PyTorch ML Engine
-│   │   └── main.py          # FastAPI Entrypoint & Static File Server
-│   ├── sample_images/       # Sample Test Kit Images
-│   ├── static/
-│   │   └── samples/         # Static Public Sample Images
-│   ├── requirements.txt     # Python Dependencies
-│   ├── seed_data.py         # DB Seeding Script
-│   └── test_api.py          # PyTest / API Test Suite
-└── frontend/
-    ├── public/              # Static Web Assets
-    ├── src/
-    │   ├── components/      # Reusable React Components (Uploader, Navbar, Advisory)
-    │   ├── pages/           # SPA Views (Home, Diagnose, History, Auth)
-    │   ├── services/        # Axios API Client Modules
-    │   ├── App.jsx          # React Router Configuration
-    │   └── main.jsx         # Entrypoint
-    ├── index.html           # HTML5 Shell
-    ├── package.json         # Dependencies & Scripts
-    ├── tailwind.config.js   # Tailwind Configuration
-    └── vite.config.js       # Vite Configuration
+│   │   ├── api/             # FastAPI Endpoint Routers (auth, predict, history, samples)
+│   │   ├── core/            # App Configuration & CORS Middleware
+│   │   ├── db/              # SQLite Database Session Handler
+│   │   ├── models/          # SQLAlchemy Database Models & ml_engine.py
+│   │   └── main.py          # FastAPI Application Entrypoint
+│   ├── dataset/             # Automatic PlantVillage Dataset Downloader
+│   ├── download_dataset.py  # High-speed chunk-streaming downloader script
+│   ├── train.py             # PyTorch MobileNetV3 GPU trainer script
+│   ├── evaluate.py          # Validation & Test split evaluation script
+│   ├── test_api.py          # Backend automated endpoint test suite
+│   └── requirements.txt     # Python Dependencies
+├── frontend/
+│   ├── src/
+│   │   ├── components/      # Navbar, DiagnosticCard, SampleTestKit, ScanHistory
+│   │   ├── services/        # Axios API Client Service
+│   │   ├── App.jsx          # React Main Component
+│   │   └── main.jsx         # React DOM Entrypoint
+│   ├── index.html           # HTML5 Entrypoint
+│   └── package.json         # Node.js Dependencies
+├── charts/                  # Generated Matplotlib Performance Chart Images
+├── agrivision_ppt_canvas_prompt.md  # 13-Slide Gemini Canvas Presentation Prompt Deck
+└── README.md                # Technical Documentation
 ```
 
 ---
 
-## ⚡ Quick Start & Installation
+## ⚡ Execution Commands
 
-### Prerequisites
-- **Python 3.10+**
-- **Node.js 18+ & NPM**
-
----
-
-### 1️⃣ Backend Setup (FastAPI & PyTorch)
-
-```bash
+### 1. Download PlantVillage Dataset:
+```powershell
 cd backend
-
-# Create virtual environment
-python -m venv venv
-
-# Activate virtual environment (Windows PowerShell)
-.\venv\Scripts\Activate.ps1
-# Linux/macOS: source venv/bin/activate
-
-# Install dependencies
-pip install -r requirements.txt
-
-# Seed initial database records
-python seed_data.py
-
-# Launch FastAPI Uvicorn backend server on port 8001
-python -m uvicorn app.main:app --host 127.0.0.1 --port 8001 --reload
+.\venv\Scripts\python.exe download_dataset.py
 ```
-> Interactive API Docs available at: `http://127.0.0.1:8001/docs`
 
----
+### 2. Fine-Tune PyTorch Model on GPU:
+```powershell
+cd backend
+.\venv\Scripts\python.exe train.py --dataset_path ./dataset/PlantVillage/PlantVillage-Dataset-master/raw/color --epochs 5 --batch_size 64
+```
 
-### 2️⃣ Frontend Setup (React 18 + Vite)
+### 3. Evaluate Validation & Test Sets:
+```powershell
+cd backend
+.\venv\Scripts\python.exe evaluate.py
+```
 
-```bash
+### 4. Run Backend Server (Terminal 1):
+```powershell
+cd backend
+.\venv\Scripts\python.exe -m uvicorn app.main:app --host 127.0.0.1 --port 8001 --reload
+```
+
+### 5. Run Frontend Development Server (Terminal 2):
+```powershell
 cd frontend
-
-# Install Node modules
-npm install
-
-# Start Vite development server on port 5174
 npm run dev
 ```
-> Web Application live at: `http://localhost:5174`
-
----
-
-## 🧪 Sample Test Kit Reference
-
-| Sample Button | Target Crop | Condition / Disease Class | Photo Reference |
-| :--- | :--- | :--- | :--- |
-| **Sample 1** | **Tomato** | **Septoria Leaf Spot** | `fudhsc.jpg` |
-| **Sample 2** | **Apple** | **Apple Scab** | `OIP (1).jpg` |
-| **Sample 3** | **Grape** | **Grape Black Rot** | `11.jpg` |
-| **Sample 4** | **Apple** | **Healthy Apple Leaf** | `OIP.jpg` |
-| **Sample 5** | **Tomato** | **Healthy Tomato Leaf** | `ews.jpg` |
+Open browser at: `http://localhost:5174/diagnose`
 
 ---
 
 ## 📜 License
 
-Distributed under the **MIT License**. See `LICENSE` for details.
-
----
-
-## 🤝 Course Metadata
-
-- **Project Title**: AgriVision AI — Deep Learning Plant Disease Diagnostics & Agronomic Advisory System
-- **Course**: MCA Minor Project-I (MC470502)
-- **Domain**: Artificial Intelligence, Computer Vision, Full-Stack Web Development
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
