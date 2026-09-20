@@ -33,8 +33,13 @@ app.include_router(predict.router, prefix=settings.API_V1_STR)
 app.include_router(auth.router, prefix=settings.API_V1_STR)
 app.include_router(history.router, prefix=settings.API_V1_STR)
 
+from fastapi.responses import FileResponse
+
 @app.get("/")
 def root():
+    index_file = os.path.join(static_dir, "index.html")
+    if os.path.exists(index_file):
+        return FileResponse(index_file)
     return {
         "status": "online",
         "system": settings.PROJECT_NAME,
