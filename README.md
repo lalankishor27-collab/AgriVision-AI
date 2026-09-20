@@ -84,7 +84,6 @@ AgriVision-AI/
 │   ├── test_api.py          # Backend automated endpoint test suite
 │   └── requirements.txt     # Python Dependencies
 ├── charts/                  # Generated Matplotlib Performance Chart Images
-├── agrivision_ppt_canvas_prompt.md  # 13-Slide Gemini Canvas Presentation Prompt Deck
 └── README.md                # Project Documentation
 ```
 
@@ -94,7 +93,7 @@ AgriVision-AI/
 
 In Command Prompt (CMD), run:
 ```cmd
-cd /d "E:\minor project\agrivision_github_ready\backend"
+cd backend
 .\venv\Scripts\python.exe -m uvicorn app.main:app --host 127.0.0.1 --port 8001 --reload
 ```
 Open your browser to: **`http://127.0.0.1:8001/`**
