@@ -158,11 +158,11 @@
                     <div class="border-top border-secondary pt-3 mt-auto">
                         <label class="form-label text-muted small fw-bold"><i class="fa-solid fa-vial me-1 text-info"></i>1-Click Sample Test Kit</label>
                         <div class="d-flex flex-wrap">
-                            <button class="btn btn-sample" onclick="loadSample('ews')"><i class="fa-solid fa-check text-success me-1"></i>Healthy Tomato</button>
-                            <button class="btn btn-sample" onclick="loadSample('fudhsc')"><i class="fa-solid fa-bug text-warning me-1"></i>Tomato Septoria</button>
-                            <button class="btn btn-sample" onclick="loadSample('OIP (1)')"><i class="fa-solid fa-circle-exclamation text-danger me-1"></i>Apple Scab</button>
-                            <button class="btn btn-sample" onclick="loadSample('11')"><i class="fa-solid fa-virus text-danger me-1"></i>Grape Black Rot</button>
-                            <button class="btn btn-sample" onclick="loadSample('OIP')"><i class="fa-solid fa-check text-success me-1"></i>Healthy Apple</button>
+                            <button class="btn btn-sample" onclick="loadSample('tomato_healthy_leaf')"><i class="fa-solid fa-check text-success me-1"></i>Healthy Tomato</button>
+                            <button class="btn btn-sample" onclick="loadSample('tomato_early_blight')"><i class="fa-solid fa-bug text-warning me-1"></i>Tomato Septoria</button>
+                            <button class="btn btn-sample" onclick="loadSample('apple_scab')"><i class="fa-solid fa-circle-exclamation text-danger me-1"></i>Apple Scab</button>
+                            <button class="btn btn-sample" onclick="loadSample('grape_black_rot')"><i class="fa-solid fa-virus text-danger me-1"></i>Grape Black Rot</button>
+                            <button class="btn btn-sample" onclick="loadSample('apple_healthy')"><i class="fa-solid fa-check text-success me-1"></i>Healthy Apple</button>
                         </div>
                     </div>
 
@@ -239,7 +239,10 @@
         function loadSample(sampleKey) {
             selectedSampleKey = sampleKey;
             selectedFile = null;
-            document.getElementById('previewImg').src = `/static/samples/${sampleKey}.jpg`;
+            const origin = (window.location.origin && window.location.origin !== 'null' && window.location.origin.startsWith('http'))
+                ? window.location.origin
+                : 'http://127.0.0.1:8001';
+            document.getElementById('previewImg').src = `${origin}/static/samples/${sampleKey}.jpg`;
             document.getElementById('dropZone').classList.add('d-none');
             document.getElementById('previewContainer').classList.remove('d-none');
             document.getElementById('analyzeBtn').disabled = false;
@@ -269,23 +272,43 @@
                 formData.append('sample_key', selectedSampleKey);
             }
 
-            try {
-                const response = await fetch('/api/predict', {
-                    method: 'POST',
-                    body: formData
-                });
-                const data = await response.json();
+            const origin = (window.location.origin && window.location.origin !== 'null' && window.location.origin.startsWith('http'))
+                ? window.location.origin
+                : 'http://127.0.0.1:8001';
 
-                if (response.ok) {
-                    displayResult(data);
-                } else {
-                    alert('Error: ' + (data.detail || 'Analysis failed'));
-                    resetForm();
+            const endpoints = [
+                `${origin}/api/v1/predict`,
+                `${origin}/api/predict`
+            ];
+
+            let lastError = null;
+
+            for (const url of endpoints) {
+                try {
+                    const response = await fetch(url, {
+                        method: 'POST',
+                        body: formData
+                    });
+                    if (response.ok) {
+                        const data = await response.json();
+                        displayResult(data);
+                        return;
+                    } else if (response.status === 400 || response.status === 422) {
+                        const data = await response.json();
+                        alert('Validation Error: ' + (data.detail || 'Invalid input'));
+                        resetForm();
+                        return;
+                    }
+                } catch (err) {
+                    lastError = err;
                 }
-            } catch (err) {
-                alert('Connection error to FastAPI backend');
-                resetForm();
             }
+
+            alert(
+                'Connection Error: Could not connect to FastAPI backend.\n\n' +
+                'Please ensure your backend server is running in CMD on http://127.0.0.1:8001.'
+            );
+            resetForm();
         }
 
         function displayResult(data) {

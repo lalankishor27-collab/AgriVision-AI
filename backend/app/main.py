@@ -30,6 +30,11 @@ app.include_router(predict.router, prefix=settings.API_V1_STR)
 app.include_router(auth.router, prefix=settings.API_V1_STR)
 app.include_router(history.router, prefix=settings.API_V1_STR)
 
+# Also mount routers under /api for legacy or direct frontend compatibility
+app.include_router(predict.router, prefix="/api")
+app.include_router(auth.router, prefix="/api")
+app.include_router(history.router, prefix="/api")
+
 from fastapi.responses import FileResponse
 
 @app.get("/")
