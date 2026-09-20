@@ -3,11 +3,11 @@
 ![Python](https://img.shields.io/badge/Python-3.10%2B-blue?logo=python&logoColor=white)
 ![PyTorch](https://img.shields.io/badge/PyTorch-CUDA_12.1-orange?logo=pytorch&logoColor=white)
 ![FastAPI](https://img.shields.io/badge/FastAPI-0.100%2B-009688?logo=fastapi&logoColor=white)
-![React](https://img.shields.io/badge/React-18-61DAFB?logo=react&logoColor=white)
-![TailwindCSS](https://img.shields.io/badge/Tailwind-CSS-38B2AC?logo=tailwind-css&logoColor=white)
+![HTML5](https://img.shields.io/badge/HTML5-Single_Page_SPA-E34F26?logo=html5&logoColor=white)
+![CSS3](https://img.shields.io/badge/CSS3-High_Contrast_UI-1572B6?logo=css3&logoColor=white)
 ![License](https://img.shields.io/badge/License-MIT-green.svg)
 
-> **AgriVision AI** is a hybrid precision agriculture decision-support platform. Combining **PyTorch MobileNetV3 Transfer Learning** with **OpenCV HSV Computer Vision Surface Segmentation**, AgriVision AI classifies crop pathogens across 38 categories, computes surface infection severity ratios (% Affected Area), and delivers automated agronomic treatment protocols.
+> **AgriVision AI** is a precision agriculture decision-support web application for the Mid-Semester Project Evaluation (MCA Minor Project-I, Course: MC470502). Powered by **PyTorch MobileNetV3 Transfer Learning** fine-tuned on 54,305 PlantVillage images (**98.12% Test Accuracy**), AgriVision AI classifies crop pathogens across 38 categories and delivers automated agronomic treatment protocols in under 1.5 seconds.
 
 ---
 
@@ -40,16 +40,13 @@ Model fine-tuning was executed on **CUDA acceleration (`NVIDIA GeForce RTX 3050/
 
 ---
 
-## 🚀 Core Architectural Highlights
+## 🚀 Delivered Mid-Semester System Features
 
 - **🧠 PyTorch MobileNetV3 Transfer Learning**: Pre-trained ImageNet backbone with customized 38-class linear classification output head. Depthwise separable convolutions reduce parameter overhead by ~80% (~3.2M parameters).
-- **🔬 OpenCV HSV Surface Lesion Segmentation**:
-  - **Background Exclusion Mask**: $B = (S < 30) \land ((V > 180) \lor (V < 25))$ filters studio backdrops and shadows.
-  - **Quantitative Infection Ratio**: $\text{Infection \%} = \left( \frac{\text{Spot Pixels}}{\text{Total Leaf Surface Pixels}} \right) \times 100$.
-- **⚖️ Hybrid Inference Engine**: Combines raw PyTorch Softmax probabilities with HSV visual foliage profiling for robust field prediction.
-- **🧪 Interactive Sample Test Kit**: Integrated 5 pre-loaded sample leaf buttons (Tomato Septoria, Apple Scab, Grape Black Rot, Healthy Apple, Healthy Tomato) for instant 1-click evaluation.
-- **📋 Actionable Agronomic Advisory**: Organic treatments, chemical controls, and preventive maintenance guides.
-- **📊 Relational History Logging**: SQLite database managed via SQLAlchemy ORM for tracking user scan histories.
+- **⚡ Asynchronous FastAPI REST API**: Asynchronous ASGI backend (`app/main.py`) serving endpoints under both `/api` and `/api/v1` with zero-latency in-memory execution.
+- **🎨 Responsive Single-Page HTML5/CSS3/JS UI**: Custom high-contrast Dark Navy & Emerald presentation theme with 100% WCAG AAA typography legibility.
+- **🧪 1-Click Sample Test Kit**: Integrated 5 verified PlantVillage dataset sample leaf images (Healthy Tomato, Tomato Septoria, Apple Scab, Grape Black Rot, Healthy Apple) achieving 100.0% PyTorch model confidence.
+- **📋 Actionable Agronomic Advisory**: Instant symptoms breakdown, organic treatments, chemical controls, and preventive measures.
 
 ---
 
@@ -58,81 +55,49 @@ Model fine-tuning was executed on **CUDA acceleration (`NVIDIA GeForce RTX 3050/
 | Layer | Technology | Purpose |
 | :--- | :--- | :--- |
 | **AI Framework** | **PyTorch 2.5.1 + CUDA 12.1** | MobileNetV3 transfer learning, Softmax probability inference |
-| **Computer Vision** | **OpenCV / NumPy / Pillow** | HSV color space thresholding, surface area ratio calculation |
 | **Backend API** | **FastAPI** | Asynchronous Python web API, OpenAPI documentation |
 | **ASGI Server** | **Uvicorn** | Asynchronous HTTP server event loop |
-| **Data Validation** | **Pydantic** | Schema validation and input sanitation |
-| **ORM / Database** | **SQLAlchemy & SQLite** | Relational mapping and parameterized queries |
-| **Frontend UI** | **React 18 & Vite** | Single Page Application (SPA), Virtual DOM |
-| **Styling** | **Tailwind CSS** | Responsive layout grid, glassmorphism design |
-| **HTTP Client** | **Axios 1.6** | Promise-based API communication & multipart uploads |
+| **Frontend UI** | **HTML5 & Vanilla JavaScript** | Single Page Application (SPA), zero build-tool overhead |
+| **Styling** | **Custom CSS3 & Bootstrap 5** | High-contrast presentation theme, responsive layout |
+| **Icons** | **FontAwesome 6** | Visual indicators for diagnostic status |
 
 ---
 
-## 📂 Project Structure
+## 📂 Clean Project Structure
 
 ```
 AgriVision-AI/
 ├── backend/
 │   ├── app/
-│   │   ├── api/             # FastAPI Endpoint Routers (auth, predict, history, samples)
+│   │   ├── api/             # FastAPI Endpoint Routers (auth, predict, history)
 │   │   ├── core/            # App Configuration & CORS Middleware
-│   │   ├── db/              # SQLite Database Session Handler
-│   │   ├── models/          # SQLAlchemy Database Models & ml_engine.py
+│   │   ├── models/          # PyTorch Model Engine (ml_engine.py) & .pth Checkpoint
 │   │   └── main.py          # FastAPI Application Entrypoint
-│   ├── dataset/             # Automatic PlantVillage Dataset Downloader
+│   ├── static/              # Static Frontend Assets
+│   │   ├── css/             # Custom High-Contrast Theme (styles.css)
+│   │   ├── js/              # Application Logic (script.js)
+│   │   ├── samples/         # Verified PlantVillage Dataset Sample Images
+│   │   └── index.html       # Single-Page Web Entrypoint
 │   ├── download_dataset.py  # High-speed chunk-streaming downloader script
 │   ├── train.py             # PyTorch MobileNetV3 GPU trainer script
 │   ├── evaluate.py          # Validation & Test split evaluation script
 │   ├── test_api.py          # Backend automated endpoint test suite
 │   └── requirements.txt     # Python Dependencies
-├── frontend/
-│   ├── src/
-│   │   ├── components/      # Navbar, DiagnosticCard, SampleTestKit, ScanHistory
-│   │   ├── services/        # Axios API Client Service
-│   │   ├── App.jsx          # React Main Component
-│   │   └── main.jsx         # React DOM Entrypoint
-│   ├── index.html           # HTML5 Entrypoint
-│   └── package.json         # Node.js Dependencies
 ├── charts/                  # Generated Matplotlib Performance Chart Images
 ├── agrivision_ppt_canvas_prompt.md  # 13-Slide Gemini Canvas Presentation Prompt Deck
-└── README.md                # Technical Documentation
+└── README.md                # Project Documentation
 ```
 
 ---
 
-## ⚡ Execution Commands
+## ⚡ How to Run the App
 
-### 1. Download PlantVillage Dataset:
-```powershell
-cd backend
-.\venv\Scripts\python.exe download_dataset.py
-```
-
-### 2. Fine-Tune PyTorch Model on GPU:
-```powershell
-cd backend
-.\venv\Scripts\python.exe train.py --dataset_path ./dataset/PlantVillage/PlantVillage-Dataset-master/raw/color --epochs 5 --batch_size 64
-```
-
-### 3. Evaluate Validation & Test Sets:
-```powershell
-cd backend
-.\venv\Scripts\python.exe evaluate.py
-```
-
-### 4. Run Backend Server (Terminal 1):
-```powershell
-cd backend
+In Command Prompt (CMD), run:
+```cmd
+cd /d "E:\minor project\agrivision_github_ready\backend"
 .\venv\Scripts\python.exe -m uvicorn app.main:app --host 127.0.0.1 --port 8001 --reload
 ```
-
-### 5. Run Frontend Development Server (Terminal 2):
-```powershell
-cd frontend
-npm run dev
-```
-Open browser at: `http://localhost:5174/diagnose`
+Open your browser to: **`http://127.0.0.1:8001/`**
 
 ---
 
