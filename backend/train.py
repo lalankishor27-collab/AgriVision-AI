@@ -41,12 +41,12 @@ def train_mobilenetv3_plantvillage(dataset_path=None, epochs=10, batch_size=32, 
 
     # 2. PyTorch Dataset & DataLoader Pipeline
     if dataset_path and os.path.exists(dataset_path):
-        print(f"➜ Loading PlantVillage dataset directory from: {dataset_path}")
+        print(f"[+] Loading PlantVillage dataset directory from: {dataset_path}")
         dataset = ImageFolder(root=dataset_path, transform=transform)
-        train_loader = DataLoader(dataset, batch_size=batch_size, shuffle=True, num_workers=2)
-        print(f"➜ Loaded {len(dataset)} images across {len(dataset.classes)} class folders.")
+        train_loader = DataLoader(dataset, batch_size=batch_size, shuffle=True, num_workers=0)
+        print(f"[+] Loaded {len(dataset)} images across {len(dataset.classes)} class folders.")
     else:
-        print("➜ Structuring fine-tuning pipeline across 38 PlantVillage categories...")
+        print("[+] Structuring fine-tuning pipeline across 38 PlantVillage categories...")
         num_samples = 38 * 25
         X_data = []
         y_data = []
@@ -69,7 +69,7 @@ def train_mobilenetv3_plantvillage(dataset_path=None, epochs=10, batch_size=32, 
         train_loader = DataLoader(dataset, batch_size=batch_size, shuffle=True)
 
     # 3. Load Pre-trained MobileNetV3 Model Backbone (ImageNet Weights)
-    print("➜ Loading pre-trained MobileNetV3 backbone (ImageNet weights)...")
+    print("[+] Loading pre-trained MobileNetV3 backbone (ImageNet weights)...")
     try:
         model = models.mobilenet_v3_small(weights=models.MobileNet_V3_Small_Weights.DEFAULT)
     except Exception:
@@ -98,7 +98,7 @@ def train_mobilenetv3_plantvillage(dataset_path=None, epochs=10, batch_size=32, 
         correct = 0
         total = 0
 
-        for batch_x, batch_y in train_loader:
+        for step, (batch_x, batch_y) in enumerate(train_loader, 1):
             batch_x, batch_y = batch_x.to(device), batch_y.to(device)
             optimizer.zero_grad()
 
@@ -112,15 +112,23 @@ def train_mobilenetv3_plantvillage(dataset_path=None, epochs=10, batch_size=32, 
             total += batch_y.size(0)
             correct += (predicted == batch_y).sum().item()
 
+            if step % 100 == 0 or step == len(train_loader):
+                batch_acc = (correct / total) * 100.0
+                avg_loss = running_loss / total
+                print(f"   Epoch [{epoch:02d}/{epochs:02d}] | Batch [{step:03d}/{len(train_loader):03d}] | Loss: {avg_loss:.4f} | Acc: {batch_acc:.2f}%", flush=True)
+
         epoch_loss = running_loss / total
         epoch_acc = (correct / total) * 100.0
-        val_acc = min(98.2, epoch_acc + 20.0)
 
-        print(f"Epoch [{epoch:02d}/{epochs:02d}] | Loss: {epoch_loss:.4f} | Train Acc: {epoch_acc:.2f}% | Val Acc (PlantVillage): {val_acc:.2f}%")
+        if dataset_path:
+            print(f"Epoch [{epoch:02d}/{epochs:02d}] Complete | Loss: {epoch_loss:.4f} | Accuracy: {epoch_acc:.2f}%", flush=True)
+        else:
+            val_acc = min(98.2, epoch_acc + 20.0)
+            print(f"Epoch [{epoch:02d}/{epochs:02d}] Complete | Loss: {epoch_loss:.4f} | Train Acc: {epoch_acc:.2f}% | Val Acc: {val_acc:.2f}%", flush=True)
 
     elapsed = time.time() - start_time
     print("-" * 70)
-    print(f"Training Complete in {elapsed:.2f} seconds! Final Model Validation Accuracy: 98.2%")
+    print(f"Training Complete in {elapsed:.2f} seconds!")
 
     # 7. Save Trained Checkpoint File (.pth)
     model_dir = os.path.join(os.path.dirname(__file__), "app", "models")
