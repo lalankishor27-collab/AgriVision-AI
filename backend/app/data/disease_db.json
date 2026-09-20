@@ -1,0 +1,129 @@
+{
+  "Tomato___Early_blight": {
+    "display_name": "Tomato Early Blight",
+    "crop": "Tomato",
+    "pathogen": "Fungi (Alternaria solani)",
+    "description": "A common fungal disease affecting tomato foliage, stems, and fruit. It creates dark concentric ring spots on mature leaves.",
+    "symptoms": ["Concentric brown spots on lower leaves", "Yellowing tissue around spots", "Target-like leaf lesions", "Premature defoliation"],
+    "organic_treatment": [
+      "Prune affected lower leaves immediately and dispose away from field",
+      "Apply copper octanoate or neem oil every 7-10 days",
+      "Mulch soil around base to prevent fungal spores splashing from soil"
+    ],
+    "chemical_treatment": [
+      "Spray Chlorothalonil or Mancozeb fungicide at first sign of symptoms",
+      "Alternate with Azoxystrobin to prevent fungicide resistance"
+    ],
+    "prevention": [
+      "Maintain 24-36 inch spacing between plants for adequate airflow",
+      "Water exclusively at soil level using drip irrigation",
+      "Rotate crops with non-solanaceous plants for 3 seasons"
+    ]
+  },
+  "Tomato___Late_blight": {
+    "display_name": "Tomato Late Blight",
+    "crop": "Tomato",
+    "pathogen": "Oomycete (Phytophthora infestans)",
+    "description": "A devastating water mold that can rapidly destroy entire tomato fields during cool, damp weather.",
+    "symptoms": ["Water-soaked dark green/brown spots", "White fuzzy mold under leaf surfaces", "Stem lesions", "Rotting dark patches on fruit"],
+    "organic_treatment": [
+      "Remove and incinerate all infected plants immediately",
+      "Apply copper hydroxide spray preventive barrier",
+      "Ensure bio-pesticide Bacillus subtilis is applied to soil"
+    ],
+    "chemical_treatment": [
+      "Apply systemic fungicides containing Metalaxyl, Dimethomorph, or Cyazofamid",
+      "Spray at 5-7 day intervals during high risk weather"
+    ],
+    "prevention": [
+      "Use certified disease-resistant seed varieties",
+      "Destroy volunteer tomato and potato plants nearby",
+      "Avoid overhead evening watering"
+    ]
+  },
+  "Potato___Early_blight": {
+    "display_name": "Potato Early Blight",
+    "crop": "Potato",
+    "pathogen": "Fungi (Alternaria solani)",
+    "description": "Affects foliage and tubers, causing target spots on leaves and dark sunken lesions on potato tubers.",
+    "symptoms": ["Concentric dark brown circular leaf spots", "Leaf yellowing and senescence", "Sunken dry rot spots on tubers"],
+    "organic_treatment": [
+      "Destroy infected vines 2 weeks before harvest",
+      "Apply copper sulfate or liquid kelp extract spray"
+    ],
+    "chemical_treatment": [
+      "Spray Mancozeb, Chlorothalonil, or Azoxystrobin",
+      "Begin treatment when plants reach 8 inches in height"
+    ],
+    "prevention": [
+      "Plant certified disease-free seed potatoes",
+      "Ensure proper soil potassium and nitrogen fertility",
+      "Avoid overhead sprinkler irrigation"
+    ]
+  },
+  "Potato___Late_blight": {
+    "display_name": "Potato Late Blight",
+    "crop": "Potato",
+    "pathogen": "Oomycete (Phytophthora infestans)",
+    "description": "Historically famous pathogen (causing the Irish Potato Famine) that rots foliage and tubers with extreme speed.",
+    "symptoms": ["Large brown/black water-soaked leaf patches", "White mold growth underneath leaf in humid morning", "Reddish-brown tuber rot"],
+    "organic_treatment": [
+      "Kill vines immediately if outbreak is detected to protect tubers",
+      "Spray copper octanoate preventatively"
+    ],
+    "chemical_treatment": [
+      "Apply systemic fungicides: Cymoxanil, Propamocarb, or Fluazinam",
+      "Spray every 5-7 days when weather is cool and rainy"
+    ],
+    "prevention": [
+      "Hill up soil well over potato tubers to prevent spore washed into soil",
+      "Destroy cull piles of leftover potatoes",
+      "Use late-blight resistant potato varieties"
+    ]
+  },
+  "Corn_(maize)___Common_rust_": {
+    "display_name": "Corn Common Rust",
+    "crop": "Corn",
+    "pathogen": "Fungi (Puccinia sorghi)",
+    "description": "Wind-borne fungal spores produce reddish-brown powdery pustules on both upper and lower leaf surfaces.",
+    "symptoms": ["Oval to elongate cinnamon-brown pustules", "Powdery rust spores rubbing off on fingers", "Leaf yellowing"],
+    "organic_treatment": [
+      "Apply sulfur-based organic dusts",
+      "Ensure proper field drainage"
+    ],
+    "chemical_treatment": [
+      "Apply Tebuconazole or Propiconazole triazole fungicides",
+      "Treat if rust affects >5% of leaves prior to silking"
+    ],
+    "prevention": [
+      "Plant rust-resistant corn hybrids containing Rp genes",
+      "Plant early in the season to avoid peak spore flights"
+    ]
+  },
+  "Apple___healthy": {
+    "display_name": "Healthy Apple Leaf",
+    "crop": "Apple",
+    "pathogen": "None",
+    "description": "Apple tree leaf foliage is healthy, dark green, free of scab or rust spots.",
+    "symptoms": ["Clean green leaf blade", "Intact leaf margins", "No spots"],
+    "organic_treatment": ["Apply balanced micronutrient foliar spray (zinc, boron)"],
+    "chemical_treatment": ["None required"],
+    "prevention": ["Prune tree annually for open canopy structure"]
+  },
+  "Tomato___healthy": {
+    "display_name": "Healthy Tomato Leaf",
+    "crop": "Tomato",
+    "pathogen": "None",
+    "description": "Plant foliage is healthy, vibrant green with no visible signs of fungal lesions, bacterial spots, or viral chlorosis.",
+    "symptoms": ["Vibrant green coloration", "Smooth uniform leaf structure", "No spotting or chlorosis"],
+    "organic_treatment": [
+      "Continue standard organic fertilization schedule (compost tea, balanced NPK)",
+      "Maintain regular watering schedule"
+    ],
+    "chemical_treatment": ["None required"],
+    "prevention": [
+      "Inspect foliage weekly for early warning signs",
+      "Maintain preventative bio-fungicide sprays during high humidity"
+    ]
+  }
+}
