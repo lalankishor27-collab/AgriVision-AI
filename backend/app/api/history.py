@@ -1,45 +1,21 @@
-from fastapi import APIRouter, Depends, Query
-from sqlalchemy.orm import Session
+from fastapi import APIRouter, Query
 from typing import Optional
-from app.core.database import get_db
-from app.models.db_models import PredictionHistory
+from app.api.predict import IN_MEMORY_HISTORY
 
 router = APIRouter(prefix="/history", tags=["Scan History"])
 
 @router.get("")
 def get_prediction_history(
-    user_id: Optional[int] = Query(None),
     crop: Optional[str] = Query(None),
-    limit: int = Query(50, le=200),
-    db: Session = Depends(get_db)
+    limit: int = Query(50, le=200)
 ):
-    query = db.query(PredictionHistory)
-    if user_id:
-        query = query.filter(PredictionHistory.user_id == user_id)
+    results = list(reversed(IN_MEMORY_HISTORY))
     if crop and crop.lower() != "all":
-        query = query.filter(PredictionHistory.crop.ilike(f"%{crop}%"))
-
-    history = query.order_by(PredictionHistory.created_at.desc()).limit(limit).all()
-    
-    return [
-        {
-            "id": item.id,
-            "crop": item.crop,
-            "disease_class": item.disease_class,
-            "display_name": item.display_name,
-            "confidence": item.confidence,
-            "original_image_path": item.original_image_path,
-            "location": item.location,
-            "created_at": item.created_at.isoformat() if item.created_at else None
-        }
-        for item in history
-    ]
+        results = [r for r in results if crop.lower() in r.get("crop", "").lower()]
+    return results[:limit]
 
 @router.delete("/{record_id}")
-def delete_history_record(record_id: int, db: Session = Depends(get_db)):
-    record = db.query(PredictionHistory).filter(PredictionHistory.id == record_id).first()
-    if not record:
-        return {"success": False, "detail": "Record not found"}
-    db.delete(record)
-    db.commit()
+def delete_history_record(record_id: int):
+    global IN_MEMORY_HISTORY
+    IN_MEMORY_HISTORY = [r for r in IN_MEMORY_HISTORY if r.get("id") != record_id]
     return {"success": True}

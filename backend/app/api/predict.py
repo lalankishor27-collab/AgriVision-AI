@@ -1,23 +1,21 @@
 import os
 import shutil
+import datetime
 from typing import Optional
-from fastapi import APIRouter, Depends, UploadFile, File, Form, HTTPException
-from sqlalchemy.orm import Session
-from app.core.database import get_db
+from fastapi import APIRouter, UploadFile, File, Form, HTTPException
 from app.core.config import settings
 from app.models.ml_engine import ml_engine
-from app.models.db_models import PredictionHistory
-from PIL import Image, ImageDraw
 
 router = APIRouter(prefix="", tags=["Disease Classification"])
+
+IN_MEMORY_HISTORY = []
 
 @router.post("/predict")
 async def predict_leaf(
     file: Optional[UploadFile] = File(None),
     sample_key: Optional[str] = Form(None),
     user_id: Optional[int] = Form(None),
-    location: Optional[str] = Form("Main Farm Field"),
-    db: Session = Depends(get_db)
+    location: Optional[str] = Form("Main Farm Field")
 ):
     if file and file.filename:
         filename = f"leaf_{os.urandom(6).hex()}_{file.filename}"
@@ -38,30 +36,23 @@ async def predict_leaf(
 
     analysis = ml_engine.analyze_leaf_image(file_path)
 
-    history_entry = PredictionHistory(
-        user_id=user_id,
-        crop=analysis["crop"],
-        disease_class=analysis["predicted_class"],
-        display_name=analysis["display_name"],
-        confidence=analysis["confidence"],
-        original_image_path=image_url,
-        location=location or "Main Farm Field"
-    )
-    db.add(history_entry)
-    db.commit()
-    db.refresh(history_entry)
+    record_id = len(IN_MEMORY_HISTORY) + 1
+    created_at = datetime.datetime.now(datetime.timezone.utc).isoformat()
 
-    return {
-        "id": history_entry.id,
+    res = {
+        "id": record_id,
         "image_url": image_url,
         "predicted_class": analysis["predicted_class"],
         "display_name": analysis["display_name"],
         "crop": analysis["crop"],
         "confidence": analysis["confidence"],
         "advisory": analysis["advisory"],
-        "location": history_entry.location,
-        "created_at": history_entry.created_at
+        "location": location or "Main Farm Field",
+        "created_at": created_at
     }
+
+    IN_MEMORY_HISTORY.append(res)
+    return res
 
 @router.get("/samples")
 def get_sample_images():
