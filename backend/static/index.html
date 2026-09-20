@@ -4,115 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AgriVision AI — Leaf Disease Diagnostics</title>
+    <!-- Bootstrap 5 CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- FontAwesome 6 Icons -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" rel="stylesheet">
-    <style>
-        :root {
-            --bg-color: #0F172A;
-            --card-bg: #1E293B;
-            --emerald: #10B981;
-            --emerald-hover: #059669;
-            --text-main: #F8FAFC;
-            --text-muted: #94A3B8;
-            --border-color: #334155;
-        }
-
-        body {
-            background-color: var(--bg-color);
-            color: var(--text-main);
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            min-height: 100vh;
-        }
-
-        .navbar-custom {
-            background-color: rgba(30, 41, 59, 0.8);
-            backdrop-filter: blur(10px);
-            border-bottom: 1px solid var(--border-color);
-        }
-
-        .card-custom {
-            background-color: var(--card-bg);
-            border: 1px solid var(--border-color);
-            border-radius: 16px;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
-        }
-
-        .drop-zone {
-            border: 2px dashed var(--border-color);
-            border-radius: 12px;
-            padding: 40px 20px;
-            text-align: center;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            background-color: rgba(15, 23, 42, 0.5);
-        }
-
-        .drop-zone:hover {
-            border-color: var(--emerald);
-            background-color: rgba(16, 185, 129, 0.05);
-        }
-
-        .btn-emerald {
-            background-color: var(--emerald);
-            color: #000;
-            font-weight: 600;
-            border-radius: 8px;
-            border: none;
-            padding: 10px 24px;
-            transition: all 0.2s ease;
-        }
-
-        .btn-emerald:hover {
-            background-color: var(--emerald-hover);
-            color: #fff;
-        }
-
-        .btn-sample {
-            background-color: var(--bg-color);
-            border: 1px solid var(--border-color);
-            color: var(--text-main);
-            font-size: 0.85rem;
-            border-radius: 8px;
-            padding: 8px 12px;
-            margin: 4px;
-            transition: all 0.2s ease;
-        }
-
-        .btn-sample:hover {
-            border-color: var(--emerald);
-            color: var(--emerald);
-        }
-
-        .badge-confidence {
-            background-color: rgba(16, 185, 129, 0.2);
-            color: var(--emerald);
-            border: 1px solid var(--emerald);
-            font-size: 0.9rem;
-            padding: 6px 12px;
-            border-radius: 20px;
-        }
-
-        .img-preview {
-            max-height: 260px;
-            object-fit: contain;
-            border-radius: 12px;
-            border: 1px solid var(--border-color);
-        }
-
-        .tab-btn {
-            background: none;
-            border: none;
-            color: var(--text-muted);
-            font-weight: 600;
-            padding: 8px 16px;
-            border-bottom: 2px solid transparent;
-        }
-
-        .tab-btn.active {
-            color: var(--emerald);
-            border-bottom-color: var(--emerald);
-        }
-    </style>
+    <!-- Custom High-Contrast External CSS -->
+    <link href="/static/css/styles.css" rel="stylesheet">
+    <link href="css/styles.css" rel="stylesheet">
 </head>
 <body>
 
@@ -123,16 +21,16 @@
                 <i class="fa-solid fa-leaf text-success fs-4"></i>
                 <span>AgriVision <span class="text-success">AI</span></span>
             </a>
-            <span class="badge bg-secondary">MCA Minor Project-I (MC470502)</span>
+            <span class="badge bg-secondary px-3 py-2 fs-6 fw-semibold">MCA Minor Project-I (MC470502)</span>
         </div>
     </nav>
 
     <!-- Main Container -->
     <div class="container py-5">
-        <div class="row justify-content-center mb-4">
+        <div class="row justify-content-center mb-5">
             <div class="col-lg-8 text-center">
-                <h1 class="fw-bold mb-2">Intelligent Leaf Disease Diagnostics</h1>
-                <p class="text-muted">Powered by PyTorch MobileNetV3 Transfer Learning (98.12% Test Accuracy)</p>
+                <h1 class="header-title display-5 mb-2">Intelligent Leaf Disease Diagnostics</h1>
+                <p class="header-subtitle">Powered by PyTorch MobileNetV3 Transfer Learning (98.12% Test Accuracy)</p>
             </div>
         </div>
 
@@ -143,9 +41,9 @@
                     <h5 class="fw-bold mb-3"><i class="fa-solid fa-cloud-arrow-up text-success me-2"></i>Upload Leaf Photo</h5>
 
                     <div class="drop-zone mb-3" id="dropZone" onclick="document.getElementById('fileInput').click()">
-                        <i class="fa-solid fa-image fs-1 text-muted mb-3"></i>
-                        <p class="mb-1 text-white fw-semibold">Click to upload or drag leaf image</p>
-                        <small class="text-muted">Supports JPG, PNG, WEBP</small>
+                        <i class="fa-solid fa-image fs-1 mb-3"></i>
+                        <p class="mb-1">Click to upload or drag leaf image</p>
+                        <small>Supports JPG, PNG, WEBP</small>
                         <input type="file" id="fileInput" accept="image/*" class="d-none" onchange="handleFileSelect(event)">
                     </div>
 
@@ -156,13 +54,13 @@
 
                     <!-- Sample Test Kit -->
                     <div class="border-top border-secondary pt-3 mt-auto">
-                        <label class="form-label text-muted small fw-bold"><i class="fa-solid fa-vial me-1 text-info"></i>1-Click Sample Test Kit</label>
+                        <label class="form-label text-secondary small fw-bold mb-2"><i class="fa-solid fa-vial me-1 text-info"></i>1-Click Sample Test Kit</label>
                         <div class="d-flex flex-wrap">
-                            <button class="btn btn-sample" onclick="loadSample('tomato_healthy_leaf')"><i class="fa-solid fa-check text-success me-1"></i>Healthy Tomato</button>
-                            <button class="btn btn-sample" onclick="loadSample('tomato_early_blight')"><i class="fa-solid fa-bug text-warning me-1"></i>Tomato Septoria</button>
-                            <button class="btn btn-sample" onclick="loadSample('apple_scab')"><i class="fa-solid fa-circle-exclamation text-danger me-1"></i>Apple Scab</button>
-                            <button class="btn btn-sample" onclick="loadSample('grape_black_rot')"><i class="fa-solid fa-virus text-danger me-1"></i>Grape Black Rot</button>
-                            <button class="btn btn-sample" onclick="loadSample('apple_healthy')"><i class="fa-solid fa-check text-success me-1"></i>Healthy Apple</button>
+                            <button class="btn btn-sample" onclick="loadSample('tomato_healthy_leaf', this)"><i class="fa-solid fa-check text-success me-1"></i>Healthy Tomato</button>
+                            <button class="btn btn-sample" onclick="loadSample('tomato_early_blight', this)"><i class="fa-solid fa-bug text-warning me-1"></i>Tomato Septoria</button>
+                            <button class="btn btn-sample" onclick="loadSample('apple_scab', this)"><i class="fa-solid fa-circle-exclamation text-danger me-1"></i>Apple Scab</button>
+                            <button class="btn btn-sample" onclick="loadSample('grape_black_rot', this)"><i class="fa-solid fa-virus text-danger me-1"></i>Grape Black Rot</button>
+                            <button class="btn btn-sample" onclick="loadSample('apple_healthy', this)"><i class="fa-solid fa-check text-success me-1"></i>Healthy Apple</button>
                         </div>
                     </div>
 
@@ -177,33 +75,33 @@
                 <div class="card card-custom p-4 h-100" id="resultsCard">
                     <!-- Placeholder -->
                     <div id="placeholderState" class="text-center py-5 my-auto">
-                        <i class="fa-solid fa-microscope fs-1 text-muted mb-3 opacity-50"></i>
-                        <h5 class="text-muted">Awaiting Image Input</h5>
-                        <p class="small text-muted mb-0">Upload a leaf photo or click a sample test kit button to view instant diagnosis.</p>
+                        <i class="fa-solid fa-microscope fs-1 text-success mb-3 opacity-75"></i>
+                        <h5>Awaiting Image Input</h5>
+                        <p class="mb-0">Upload a leaf photo or click a sample test kit button to view instant diagnosis.</p>
                     </div>
 
                     <!-- Loading Spinner -->
                     <div id="loadingState" class="text-center py-5 my-auto d-none">
                         <div class="spinner-border text-success mb-3" style="width: 3rem; height: 3rem;" role="status"></div>
                         <h5 class="fw-bold">Running PyTorch Inference...</h5>
-                        <p class="small text-muted">Analyzing 38 PlantVillage disease classes</p>
+                        <p class="small">Analyzing 38 PlantVillage disease classes</p>
                     </div>
 
                     <!-- Result View -->
                     <div id="resultState" class="d-none">
                         <div class="d-flex justify-content-between align-items-start mb-3 border-bottom border-secondary pb-3">
                             <div>
-                                <span class="badge bg-success mb-1" id="cropBadge">Crop</span>
-                                <h3 class="fw-bold mb-0" id="displayName">Diagnosis Name</h3>
+                                <span class="badge bg-success mb-2 px-3 py-1 fs-6" id="cropBadge">Crop</span>
+                                <h2 class="fw-bold mb-0 text-dark" id="displayName">Diagnosis Name</h2>
                             </div>
                             <span class="badge badge-confidence fw-bold" id="confidenceBadge">98.5% Confidence</span>
                         </div>
 
                         <!-- Advisory Tabs -->
                         <div class="d-flex border-bottom border-secondary mb-3">
-                            <button class="tab-btn active" onclick="switchTab('symptoms')">Symptoms</button>
-                            <button class="tab-btn" onclick="switchTab('organic')">Organic Treatment</button>
-                            <button class="tab-btn" onclick="switchTab('chemical')">Chemical Control</button>
+                            <button class="tab-btn active" onclick="switchTab('symptoms', this)">Symptoms</button>
+                            <button class="tab-btn" onclick="switchTab('organic', this)">Organic Treatment</button>
+                            <button class="tab-btn" onclick="switchTab('chemical', this)">Chemical Control</button>
                         </div>
 
                         <div id="tabContent" class="py-2">
@@ -215,131 +113,8 @@
         </div>
     </div>
 
-    <script>
-        let selectedFile = null;
-        let selectedSampleKey = null;
-        let currentAdvisory = null;
-
-        function handleFileSelect(event) {
-            const file = event.target.files[0];
-            if (file) {
-                selectedFile = file;
-                selectedSampleKey = null;
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    document.getElementById('previewImg').src = e.target.result;
-                    document.getElementById('dropZone').classList.add('d-none');
-                    document.getElementById('previewContainer').classList.remove('d-none');
-                    document.getElementById('analyzeBtn').disabled = false;
-                };
-                reader.readAsDataURL(file);
-            }
-        }
-
-        function loadSample(sampleKey) {
-            selectedSampleKey = sampleKey;
-            selectedFile = null;
-            const origin = (window.location.origin && window.location.origin !== 'null' && window.location.origin.startsWith('http'))
-                ? window.location.origin
-                : 'http://127.0.0.1:8001';
-            document.getElementById('previewImg').src = `${origin}/static/samples/${sampleKey}.jpg`;
-            document.getElementById('dropZone').classList.add('d-none');
-            document.getElementById('previewContainer').classList.remove('d-none');
-            document.getElementById('analyzeBtn').disabled = false;
-        }
-
-        function resetForm() {
-            selectedFile = null;
-            selectedSampleKey = null;
-            document.getElementById('fileInput').value = '';
-            document.getElementById('dropZone').classList.remove('d-none');
-            document.getElementById('previewContainer').classList.add('d-none');
-            document.getElementById('analyzeBtn').disabled = true;
-            document.getElementById('placeholderState').classList.remove('d-none');
-            document.getElementById('loadingState').classList.add('d-none');
-            document.getElementById('resultState').classList.add('d-none');
-        }
-
-        async function runAnalysis() {
-            document.getElementById('placeholderState').classList.add('d-none');
-            document.getElementById('loadingState').classList.remove('d-none');
-            document.getElementById('resultState').classList.add('d-none');
-
-            const formData = new FormData();
-            if (selectedFile) {
-                formData.append('file', selectedFile);
-            } else if (selectedSampleKey) {
-                formData.append('sample_key', selectedSampleKey);
-            }
-
-            const origin = (window.location.origin && window.location.origin !== 'null' && window.location.origin.startsWith('http'))
-                ? window.location.origin
-                : 'http://127.0.0.1:8001';
-
-            const endpoints = [
-                `${origin}/api/v1/predict`,
-                `${origin}/api/predict`
-            ];
-
-            let lastError = null;
-
-            for (const url of endpoints) {
-                try {
-                    const response = await fetch(url, {
-                        method: 'POST',
-                        body: formData
-                    });
-                    if (response.ok) {
-                        const data = await response.json();
-                        displayResult(data);
-                        return;
-                    } else if (response.status === 400 || response.status === 422) {
-                        const data = await response.json();
-                        alert('Validation Error: ' + (data.detail || 'Invalid input'));
-                        resetForm();
-                        return;
-                    }
-                } catch (err) {
-                    lastError = err;
-                }
-            }
-
-            alert(
-                'Connection Error: Could not connect to FastAPI backend.\n\n' +
-                'Please ensure your backend server is running in CMD on http://127.0.0.1:8001.'
-            );
-            resetForm();
-        }
-
-        function displayResult(data) {
-            currentAdvisory = data.advisory || {};
-            document.getElementById('cropBadge').innerText = data.crop || 'Crop';
-            document.getElementById('displayName').innerText = data.display_name || data.predicted_class;
-            document.getElementById('confidenceBadge').innerText = (data.confidence || 95).toFixed(1) + '% Confidence';
-
-            document.getElementById('loadingState').classList.add('d-none');
-            document.getElementById('resultState').classList.remove('d-none');
-            switchTab('symptoms');
-        }
-
-        function switchTab(tabName) {
-            const buttons = document.querySelectorAll('.tab-btn');
-            buttons.forEach(b => b.classList.remove('active'));
-            event.target.classList.add('active');
-
-            const contentDiv = document.getElementById('tabContent');
-            let items = [];
-            if (tabName === 'symptoms') items = currentAdvisory.symptoms || ['No symptoms listed'];
-            if (tabName === 'organic') items = currentAdvisory.organic_treatment || ['No organic treatment required'];
-            if (tabName === 'chemical') items = currentAdvisory.chemical_treatment || ['No chemical treatment required'];
-
-            let html = '<ul class="list-group list-group-flush bg-transparent">';
-            items.forEach(item => {
-                html += `<li class="list-group-item bg-transparent text-white border-secondary px-0"><i class="fa-solid fa-chevron-right text-success me-2"></i>${item}</li>`;
-            });
-            html += '</ul>';
-            contentDiv.innerHTML = html;
-        }
-    </script>
+    <!-- Custom External JavaScript -->
+    <script src="/static/js/script.js"></script>
+    <script src="js/script.js"></script>
 </body>
 </html>

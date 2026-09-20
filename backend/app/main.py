@@ -26,6 +26,13 @@ os.makedirs(os.path.join(static_dir, "samples"), exist_ok=True)
 
 app.mount("/static", StaticFiles(directory=static_dir), name="static")
 
+css_dir = os.path.join(static_dir, "css")
+js_dir = os.path.join(static_dir, "js")
+if os.path.exists(css_dir):
+    app.mount("/css", StaticFiles(directory=css_dir), name="css")
+if os.path.exists(js_dir):
+    app.mount("/js", StaticFiles(directory=js_dir), name="js")
+
 app.include_router(predict.router, prefix=settings.API_V1_STR)
 app.include_router(auth.router, prefix=settings.API_V1_STR)
 app.include_router(history.router, prefix=settings.API_V1_STR)

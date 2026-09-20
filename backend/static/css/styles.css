@@ -1,0 +1,222 @@
+/* AgriVision AI — High-Contrast Modern Presentation Theme */
+
+:root {
+    --bg-color: #F8FAFC;
+    --card-bg: #FFFFFF;
+    --card-border: #E2E8F0;
+    --emerald-primary: #10B981;
+    --emerald-dark: #059669;
+    --emerald-light: #ECFDF5;
+    --text-main: #0F172A;
+    --text-muted: #475569;
+    --text-subtle: #64748B;
+    --shadow-soft: 0 10px 30px rgba(15, 23, 42, 0.08);
+}
+
+body {
+    background-color: var(--bg-color);
+    background-image: radial-gradient(circle at 50% 0%, rgba(16, 185, 129, 0.08), transparent 45%);
+    color: var(--text-main);
+    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    min-height: 100vh;
+}
+
+/* Force override for Bootstrap text-muted for maximum contrast */
+.text-muted {
+    color: var(--text-muted) !important;
+}
+
+/* Header & Title Styling */
+.header-title {
+    color: var(--text-main) !important;
+    font-weight: 800;
+    letter-spacing: -0.5px;
+}
+
+.header-subtitle {
+    color: var(--text-muted) !important;
+    font-size: 1.1rem;
+    font-weight: 600;
+}
+
+/* Navbar */
+.navbar-custom {
+    background-color: #0F172A;
+    border-bottom: 1px solid #1E293B;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.navbar-brand {
+    font-size: 1.35rem;
+    letter-spacing: -0.5px;
+}
+
+/* Main Cards */
+.card-custom {
+    background-color: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: 16px;
+    box-shadow: var(--shadow-soft);
+}
+
+/* Card Titles */
+h1, h2, h3, h4, h5, h6 {
+    color: var(--text-main);
+}
+
+/* Drop Zone */
+.drop-zone {
+    border: 2px dashed var(--emerald-primary);
+    border-radius: 14px;
+    padding: 35px 20px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    background-color: var(--emerald-light);
+}
+
+.drop-zone:hover, .drop-zone.dragover {
+    border-color: var(--emerald-dark);
+    background-color: #D1FAE5;
+    transform: translateY(-2px);
+}
+
+.drop-zone i {
+    color: var(--emerald-dark) !important;
+}
+
+.drop-zone p {
+    color: var(--text-main) !important;
+    font-weight: 700;
+}
+
+.drop-zone small {
+    color: var(--text-subtle) !important;
+    font-weight: 600;
+}
+
+/* Preview Image */
+.img-preview {
+    max-height: 250px;
+    object-fit: contain;
+    border-radius: 12px;
+    border: 1px solid var(--card-border);
+    background-color: #F1F5F9;
+}
+
+/* Run AI Diagnostics Button */
+.btn-emerald {
+    background-color: var(--emerald-primary);
+    color: #FFFFFF;
+    font-weight: 700;
+    font-size: 1.05rem;
+    border-radius: 10px;
+    border: none;
+    padding: 12px 24px;
+    transition: all 0.2s ease;
+    box-shadow: 0 4px 14px rgba(16, 185, 129, 0.4);
+}
+
+.btn-emerald:hover:not(:disabled) {
+    background-color: var(--emerald-dark);
+    color: #FFFFFF;
+    box-shadow: 0 6px 20px rgba(16, 185, 129, 0.5);
+}
+
+.btn-emerald:disabled {
+    background-color: #E2E8F0;
+    color: #94A3B8;
+    opacity: 0.8;
+    cursor: not-allowed;
+    box-shadow: none;
+}
+
+/* Sample Kit Buttons */
+.btn-sample {
+    background-color: #F8FAFC;
+    border: 1px solid #CBD5E1;
+    color: #0F172A !important;
+    font-size: 0.88rem;
+    font-weight: 600;
+    border-radius: 8px;
+    padding: 8px 14px;
+    margin: 4px;
+    transition: all 0.2s ease;
+}
+
+.btn-sample:hover, .btn-sample.active-sample {
+    border-color: var(--emerald-dark);
+    background-color: var(--emerald-primary);
+    color: #FFFFFF !important;
+    box-shadow: 0 2px 8px rgba(16, 185, 129, 0.3);
+}
+
+/* Confidence Badge */
+.badge-confidence {
+    background-color: #D1FAE5;
+    color: #065F46;
+    border: 1px solid #34D399;
+    font-size: 0.95rem;
+    font-weight: 700;
+    padding: 6px 14px;
+    border-radius: 20px;
+}
+
+/* Advisory Tabs */
+.tab-btn {
+    background: none;
+    border: none;
+    color: #64748B;
+    font-weight: 700;
+    font-size: 1rem;
+    padding: 10px 18px;
+    border-bottom: 3px solid transparent;
+    transition: all 0.2s ease;
+}
+
+.tab-btn:hover {
+    color: var(--text-main);
+}
+
+.tab-btn.active {
+    color: var(--emerald-dark);
+    border-bottom-color: var(--emerald-primary);
+}
+
+/* Custom Advisory List Items */
+.list-group-item-custom {
+    background-color: #F8FAFC;
+    border: 1px solid #E2E8F0;
+    border-radius: 10px !important;
+    margin-bottom: 8px;
+    color: #0F172A !important;
+    font-size: 0.98rem;
+    font-weight: 600;
+    padding: 12px 18px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
+}
+
+/* Placeholder & Loading State Text */
+#placeholderState i {
+    color: var(--emerald-primary) !important;
+}
+
+#placeholderState h5 {
+    color: var(--text-main) !important;
+    font-weight: 700;
+}
+
+#placeholderState p {
+    color: var(--text-muted) !important;
+    font-size: 0.95rem;
+    font-weight: 500;
+}
+
+#loadingState h5 {
+    color: var(--text-main) !important;
+    font-weight: 700;
+}
+
+#loadingState p {
+    color: var(--text-muted) !important;
+}
