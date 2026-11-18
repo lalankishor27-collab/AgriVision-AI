@@ -7,17 +7,7 @@
 ![CSS3](https://img.shields.io/badge/CSS3-High_Contrast_UI-1572B6?logo=css3&logoColor=white)
 ![License](https://img.shields.io/badge/License-MIT-green.svg)
 
-> **AgriVision AI** is a precision agriculture decision-support web application for the Mid-Semester Project Evaluation (MCA Minor Project-I, Course: MC470502). Powered by **PyTorch MobileNetV3 Transfer Learning** fine-tuned on 54,305 PlantVillage images (**98.12% Test Accuracy**), AgriVision AI classifies crop pathogens across 38 categories and delivers automated agronomic treatment protocols in under 1.5 seconds.
-
----
-
-## 👨‍💻 Project Team & Supervision
-
-- **Course**: Minor Project - I (Code: MC470502) | Master of Computer Applications (MCA)
-- **Presented By**:
-  - **Lalan Kishor** (Roll No: 2447006)
-  - **Narendra Mohan Jha** (Roll No: 2447014)
-- **Project Guide**: **Dr. Amrita Mohan** (Dept. of Computer Science & Engineering)
+> **AgriVision AI** is an intelligent precision agriculture decision-support web platform. Powered by **PyTorch MobileNetV3 Transfer Learning** fine-tuned on 54,305 PlantVillage images (**98.12% Test Accuracy**), AgriVision AI classifies crop pathogens across 38 categories and delivers automated agronomic treatment protocols in under 1.5 seconds.
 
 ---
 
@@ -40,7 +30,7 @@ Model fine-tuning was executed on **CUDA acceleration (`NVIDIA GeForce RTX 3050/
 
 ---
 
-## 🚀 Delivered Mid-Semester System Features
+## 🚀 Core System Features
 
 - **🧠 PyTorch MobileNetV3 Transfer Learning**: Pre-trained ImageNet backbone with customized 38-class linear classification output head. Depthwise separable convolutions reduce parameter overhead by ~80% (~3.2M parameters).
 - **⚡ Asynchronous FastAPI REST API**: Asynchronous ASGI backend (`app/main.py`) serving endpoints under both `/api` and `/api/v1` with zero-latency in-memory execution.
